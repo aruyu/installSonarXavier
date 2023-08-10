@@ -88,6 +88,7 @@ function install_ros()
 
 function isntall_sonar()
 {
+  source ~/.bashrc
   git clone https://github.com/RobustFieldAutonomyLab/bluerov.git ~/catkin_ws/src/bluerov
   sudo apt-get install python3-dev -y
   sudo apt install python3-scipy -y
@@ -96,6 +97,11 @@ function isntall_sonar()
   cd ~/catkin_ws
   rm -r build/ devel/
   catkin build sonar_oculus || script_print_error "Sonar installation failed."
+
+  if [[ ${CURRENT_JOB} = "Noetic" ]]; then
+    sed -i '/QtCore.QByteArray/s/)",$/",/g' ~/catkin_ws/src/bluerov/sonar_oculus/launch/sonar_oculus.perspective
+    sed -i 's/QtCore.QByteArray(/b/g' ~/catkin_ws/src/bluerov/sonar_oculus/launch/sonar_oculus.perspective
+  fi
 }
 
 
