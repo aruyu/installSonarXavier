@@ -119,18 +119,18 @@ fi
 cd $HOME
 
 # Install Jetpack
-install_jetpack | script_print_error "Jetpack installation failed."
+install_jetpack || script_print_error "Jetpack installation failed."
 
 # Install jetson-stats
-install_jetson_stats | script_print_error "jetson-stats installation failed."
+install_jetson_stats || script_print_error "jetson-stats installation failed."
 
 # Install jetson-fan-ctl
-isntall_jetson_fanctl | script_print_error "jetson-fan-ctl installation failed."
+isntall_jetson_fanctl || script_print_error "jetson-fan-ctl installation failed."
 
 # Install ROS
-install_ros | script_print_error "ROS installation failed."
+install_ros || script_print_error "ROS installation failed."
 
 # Install Sonar
-isntall_sonar | script_print_error "Sonar installation failed."
+isntall_sonar || script_print_error "Sonar installation failed."
 
 script_print_notify "All successfully done.\n\n"
