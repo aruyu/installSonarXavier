@@ -44,7 +44,6 @@ function install_jetpack()
 {
   sudo apt-get update -y
   sudo apt-get install nvidia-jetpack -y
-  script_print_notify "Jetpack installation done."
 }
 
 function install_jetson_stats()
@@ -53,9 +52,7 @@ function install_jetson_stats()
   sudo apt-get install libpython3-dev python3-numpy -y
   sudo apt-get install python3-pip -y
   sudo -H pip3 install -U jetson-stats
-  jetson_release -v
   #jtop
-  script_print_notify "jetson-stats installation done."
 }
 
 function isntall_jetson_fanctl()
@@ -64,7 +61,6 @@ function isntall_jetson_fanctl()
   git clone https://github.com/Pyrestone/jetson-fan-ctl.git
   sudo ~/jetson-fan-ctl/install.sh
   rm -rf jetson-fan-ctl
-  script_print_notify "jetson-fan-ctl installation done."
 }
 
 function install_ros()
@@ -88,7 +84,6 @@ function install_ros()
     ~/installROSXavier/installROS.sh -p ros-noetic-desktop-full
     ~/installROSXavier/setupCatkinWorkspace.sh
   fi
-  script_print_notify "ROS installation done."
 }
 
 function isntall_sonar()
@@ -100,8 +95,7 @@ function isntall_sonar()
   sudo -H pip3 install -U rospkg catkin_pkg
   cd ~/catkin_ws
   rm -r build/ devel/
-  catkin build sonar_oculus
-  script_print_notify "Sonar installation done."
+  catkin build sonar_oculus || script_print_error "Sonar installation failed."
 }
 
 
@@ -119,18 +113,30 @@ fi
 cd $HOME
 
 # Install Jetpack
+script_print "Installing Jetpack...\n"
 install_jetpack || script_print_error "Jetpack installation failed."
+script_print_notify "Jetpack installation done.\n"
 
 # Install jetson-stats
+script_print "Installing jetson-stats...\n"
 install_jetson_stats || script_print_error "jetson-stats installation failed."
+script_print_notify "jetson-stats installation done.\n"
 
 # Install jetson-fan-ctl
+script_print "Installing jetson-fan-ctl...\n"
 isntall_jetson_fanctl || script_print_error "jetson-fan-ctl installation failed."
+script_print_notify "jetson-fan-ctl installation done.\n"
 
 # Install ROS
+script_print "Installing ROS...\n"
 install_ros || script_print_error "ROS installation failed."
+script_print_notify "ROS installation done.\n"
 
 # Install Sonar
+script_print "Installing Sonar...\n"
 isntall_sonar || script_print_error "Sonar installation failed."
+script_print_notify "Sonar installation done.\n"
 
+jetson_release -v
+script_print_notify "Reboot needed.\n"
 script_print_notify "All successfully done.\n\n"
