@@ -88,7 +88,6 @@ function install_ros()
 
 function isntall_sonar()
 {
-  source ~/.bashrc
   git clone https://github.com/RobustFieldAutonomyLab/bluerov.git ~/catkin_ws/src/bluerov
   sudo apt-get install python3-dev -y
   sudo apt install python3-scipy -y
@@ -96,7 +95,9 @@ function isntall_sonar()
   sudo -H pip3 install -U rospkg catkin_pkg
   cd ~/catkin_ws
   rm -r build/ devel/
-  catkin build sonar_oculus || script_print_error "Sonar installation failed."
+
+  eval "$(cat ~/.bashrc | tail -n +10)"
+  catkin build sonar_oculus || error_exit "Sonar installation failed."
 
   if [[ ${CURRENT_JOB} = "Noetic" ]]; then
     sed -i '/QtCore.QByteArray/s/)",$/",/g' ~/catkin_ws/src/bluerov/sonar_oculus/launch/sonar_oculus.perspective
@@ -120,27 +121,27 @@ cd $HOME
 
 # Install Jetpack
 script_print "Installing Jetpack...\n"
-install_jetpack || script_print_error "Jetpack installation failed."
+install_jetpack || error_exit "Jetpack installation failed."
 script_print_notify "Jetpack installation done.\n"
 
 # Install jetson-stats
 script_print "Installing jetson-stats...\n"
-install_jetson_stats || script_print_error "jetson-stats installation failed."
+install_jetson_stats || error_exit "jetson-stats installation failed."
 script_print_notify "jetson-stats installation done.\n"
 
 # Install jetson-fan-ctl
 script_print "Installing jetson-fan-ctl...\n"
-isntall_jetson_fanctl || script_print_error "jetson-fan-ctl installation failed."
+isntall_jetson_fanctl || error_exit "jetson-fan-ctl installation failed."
 script_print_notify "jetson-fan-ctl installation done.\n"
 
 # Install ROS
 script_print "Installing ROS...\n"
-install_ros || script_print_error "ROS installation failed."
+install_ros || error_exit "ROS installation failed."
 script_print_notify "ROS installation done.\n"
 
 # Install Sonar
 script_print "Installing Sonar...\n"
-isntall_sonar || script_print_error "Sonar installation failed."
+isntall_sonar || error_exit "Sonar installation failed."
 script_print_notify "Sonar installation done.\n"
 
 jetson_release -v

@@ -60,7 +60,7 @@ function launch_ros()
 
 function launch_sonar()
 {
-  source ~/catkin_ws/devel/setup.bash
+  eval "$(cat ~/catkin_ws/devel/setup.bash)"
   rospack profile
   rospack find sonar_oculus
 
@@ -94,12 +94,12 @@ script_print_notify "ROS IP to launch: "${ip_address}"\n"
 
 # Launch ROS
 script_print "Launching ROS...\n"
-launch_ros || script_print_error "Launch ROS failed."
+launch_ros || error_exit "Launch ROS failed."
 script_print_notify "Launch ROS done.\n"
 
 # Launch Sonar
 script_print "Launching sonar...\n"
-launch_sonar || script_print_error "Launch sonar failed."
+launch_sonar || error_exit "Launch sonar failed."
 script_print_notify "Launch sonar done.\n"
 
 script_print_notify "All successfully done.\n\n"
