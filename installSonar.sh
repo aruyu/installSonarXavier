@@ -96,7 +96,11 @@ function isntall_sonar()
   cd ~/catkin_ws
   rm -r build/ devel/
 
-  eval "$(cat ~/.bashrc | tail -n +10)"
+  . ~/.bashrc
+  . /opt/ros/noetic/setup.bash
+  export ROS_MASTER_URI=http://localhost:11311
+  export ROS_IP=${ip_address}
+  export LD_LIBRARY_PATH=/usr/local/lib:$LD_LIBRARY_PATH
   catkin build sonar_oculus || error_exit "Sonar installation failed."
 
   if [[ ${CURRENT_JOB} = "Noetic" ]]; then

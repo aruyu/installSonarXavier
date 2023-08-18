@@ -53,14 +53,16 @@ function usage_print()
 
 function launch_ros()
 {
+  export ROS_MASTER_URI=http://localhost:11311
   export ROS_IP=${ip_address}
+  export LD_LIBRARY_PATH=/usr/local/lib:$LD_LIBRARY_PATH
   roscore &
-  sleep 5
+  sleep 10
 }
 
 function launch_sonar()
 {
-  eval "$(cat ~/catkin_ws/devel/setup.bash)"
+  . ~/catkin_ws/devel/setup.bash
   rospack profile
   rospack find sonar_oculus
 
