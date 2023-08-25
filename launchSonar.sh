@@ -45,7 +45,7 @@ function usage_print()
   echo "Usage: ./launchSonar.sh [[-i ip-address] | [-h]]"
   echo "Launch ROS Image Sonar"
   echo "Launch 169.254.11.203 as default ROS ip-address; Use [-i/--ip] to override"
-  echo "-p | --ip <ip-address>  ROS Sonar IP address"
+  echo "-i | --ip <ip-address>  ROS Sonar IP address"
   echo "                        Blank this would set ip-address as:"
   echo "                         169.254.11.203"
   echo "-h | --help  This message"
